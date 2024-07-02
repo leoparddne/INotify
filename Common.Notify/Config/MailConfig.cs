@@ -1,4 +1,6 @@
-﻿namespace Common.Notify.Config
+﻿using MailKit.Security;
+
+namespace Common.Notify.Config
 {
     public class MailConfig : BaseConfig
     {
@@ -19,6 +21,12 @@
         /// 端口
         /// </summary>
         public int MailPort { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public SecureSocketOptions SecurityType { get; set; } = SecureSocketOptions.Auto;
 
     }
 }

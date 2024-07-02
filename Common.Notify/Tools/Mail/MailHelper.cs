@@ -37,7 +37,7 @@ namespace Common.Notify.Tools.Mail
             };
             using (MailKit.Net.Smtp.SmtpClient client = new MailKit.Net.Smtp.SmtpClient())
             {
-                client.Connect(config.MailHost, config.MailPort, true);
+                client.Connect(config.MailHost, config.MailPort, config.SecurityType);
                 client.Authenticate(config.MailFrom, config.MailPwd);
                 client.Send(message);
                 client.Disconnect(true);
