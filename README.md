@@ -53,7 +53,10 @@ Send方法可以发送自定义的结构,通过object类型将具体的sdk需要
                 MailHost = "smtp.exmail.qq.com",
                 MailPort = 465,
                 MailFrom = "test@qq.com.cn",
-                MailPwd = "test"
+                MailPwd = "test",
+				//安全类型,默认为自动,如果服务器ssl验证失败可以修改此处类型并调整端口为非ssl端口(默认25)
+				//需要注意office365部分场景下需要使用StartTls
+                SecurityType = MailKit.Security.SecureSocketOptions.Auto
             };
             MessageHelper.SendText(Enums.ConfigTypeEnum.EMail, config, new DTO.SendTextInDto
             {
