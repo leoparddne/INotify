@@ -1,18 +1,24 @@
-# INotify
-统一消息推送,钉钉、微信、邮件
+# Common.Notify
+统一消息推送：钉钉、企业微信、飞书、邮件
 
+支持发送基础文本，也支持通过 `SendText` 传递自定义结构由底层 SDK 发送。
 
-统一调用在MessageHelperTest测试类中
+!!!请注意调整对应的 key
 
-!!!请注意调整对应的key
+### 依赖工程
 
-### MessageHelper类
-SendText方法用来发送基础的文本内容
+- `Common.Toolkit`：公共封装类库（HTTP 请求、对象映射、异常校验、扩展方法）
 
-Send方法可以发送自定义的结构,通过object类型将具体的sdk需要的结构传递到底层进行发送
+### MessageHelper 类
+
+- `SendText(ConfigTypeEnum type, BaseConfig config, SendTextInDto dto)`：按指定通道发送基础文本。
+- `SendText(CommonSendMessageInDto dto)`：通用调用入口，内部自动解析配置、按部门获取用户并发送。
+
+### 测试
+
+`Common.Notify.Test` 中的 `FeishuProviderTest` 演示了飞书通道的调用方式。
 
 ```
-
    [TestMethod]
         public void SendDing()
         {
