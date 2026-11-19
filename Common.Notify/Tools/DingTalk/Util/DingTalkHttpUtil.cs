@@ -7,17 +7,17 @@ namespace Common.Notify.Tools.DingTalk.Util
     public static class DingTalkHttpUtil
     {
         public static readonly string baseUrl = "https://oapi.dingtalk.com/topapi/";
-        public static T Get<T>(string url)
+        public static T Get<T>(string url, int timeout = 10000)
         {
-            Task<CommonOutDto<T>> result = HttpHelper.GetAsync<CommonOutDto<T>>($"{baseUrl}{url}");
+            Task<CommonOutDto<T>> result = HttpHelper.GetAsync<CommonOutDto<T>>($"{baseUrl}{url}", null, null, timeout);
             result.Wait();
 
             return GetData(result.Result);
         }
 
-        public static T Post<T>(string url, object bodyData)
+        public static T Post<T>(string url, object bodyData, int timeout = 10000)
         {
-            Task<CommonOutDto<T>> result = HttpHelper.PostAsync<CommonOutDto<T>>($"{baseUrl}{url}", bodyData);
+            Task<CommonOutDto<T>> result = HttpHelper.PostAsync<CommonOutDto<T>>($"{baseUrl}{url}", bodyData, null, timeout);
             result.Wait();
 
             return GetData(result.Result);

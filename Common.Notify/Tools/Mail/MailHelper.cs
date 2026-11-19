@@ -15,7 +15,7 @@ namespace Common.Notify.Tools.Mail
         /// <param name="content">正文</param>
         /// <param name="mailTo">接收邮箱</param>
         /// <returns></returns>
-        public static void SendMail(MailConfig config, string subject, string content, List<string> mailTo)
+        public static void SendMail(MailConfig config, string subject, string content, List<string> mailTo, int timeout = 10000)
         {
             MimeMessage message = new MimeMessage();
             message.From.Add(new MailboxAddress(config.MailFrom, config.MailFrom));
@@ -37,6 +37,7 @@ namespace Common.Notify.Tools.Mail
             };
             using (MailKit.Net.Smtp.SmtpClient client = new MailKit.Net.Smtp.SmtpClient())
             {
+                client.Timeout = timeout;
                 client.Connect(config.MailHost, config.MailPort, config.SecurityType);
                 client.Authenticate(config.MailFrom, config.MailPwd);
                 client.Send(message);

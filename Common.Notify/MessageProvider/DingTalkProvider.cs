@@ -20,7 +20,7 @@ namespace Common.Notify.MessageProvider
                 throw new System.Exception("Error DingTalk MessageData");
             }
 
-            DingTalkHelper.SendMessage(sendData, dingTalkConfig.AppKey, dingTalkConfig.AppSecret);
+            DingTalkHelper.SendMessage(sendData, dingTalkConfig.AppKey, dingTalkConfig.AppSecret, config.Timeout * 1000);
         }
 
         public void SendMessage(BaseConfig config, SendTextInDto dto)
@@ -44,7 +44,7 @@ namespace Common.Notify.MessageProvider
 
                 to_all_user = false,
                 userid_list = string.Join(',', dto.SendTo)
-            }, dingTalkConfig.AppKey, dingTalkConfig.AppSecret);
+            }, dingTalkConfig.AppKey, dingTalkConfig.AppSecret, config.Timeout * 1000);
         }
 
     }

@@ -40,7 +40,7 @@ namespace Common.Notify.Tools.DingTalk
         }
 
 
-        public static List<DepartmentItemOutDto> QueryAllDepartment(string appKey, string appSecret)
+        public static List<DepartmentItemOutDto> QueryAllDepartment(string appKey, string appSecret, int timeout = 10000)
         {
             string token = GetAccessToken(appKey, appSecret);
 
@@ -62,11 +62,11 @@ namespace Common.Notify.Tools.DingTalk
 
             #endregion
 
-            return DingTalkHttpUtil.Get<List<DepartmentItemOutDto>>($"v2/department/listsub?access_token={token}");
+            return DingTalkHttpUtil.Get<List<DepartmentItemOutDto>>($"v2/department/listsub?access_token={token}", timeout);
         }
 
 
-        public static UserResultOutDto ListUser(string deptId, int cursor, int size, string appKey, string appSecret)
+        public static UserResultOutDto ListUser(string deptId, int cursor, int size, string appKey, string appSecret, int timeout = 10000)
         {
             string token = GetAccessToken(appKey, appSecret);
 
@@ -76,15 +76,15 @@ namespace Common.Notify.Tools.DingTalk
                     dept_id = deptId,
                     cursor,
                     size
-                });
+                }, timeout);
         }
 
-        public static void SendMessage(SendMessageInDto dto, string appKey, string appSecret)
+        public static void SendMessage(SendMessageInDto dto, string appKey, string appSecret, int timeout = 10000)
         {
             string token = GetAccessToken(appKey, appSecret);
 
             DingTalkHttpUtil.Post<UserResultOutDto>($"message/corpconversation/asyncsend_v2?access_token={token}",
-              dto);
+              dto, timeout);
         }
         
             /// <summary>
@@ -94,7 +94,7 @@ namespace Common.Notify.Tools.DingTalk
         /// <param name="appSecret"></param>
         /// <param name="phone"></param>
         /// <param name="support_exclusive_account_search">是否支持通过手机号搜索专属帐号。</param>
-        public static UserPhone GetUserByPhone(string appKey, string appSecret,string phone,bool support_exclusive_account_search)
+        public static UserPhone GetUserByPhone(string appKey, string appSecret,string phone,bool support_exclusive_account_search, int timeout = 10000)
         {
             string token = GetAccessToken(appKey, appSecret);
 
@@ -103,7 +103,7 @@ namespace Common.Notify.Tools.DingTalk
               {
                   mobile = phone,
                   support_exclusive_account_search= support_exclusive_account_search
-              });
+              }, timeout);
         }
     }
 }

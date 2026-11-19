@@ -8,6 +8,11 @@
 
         EMail = 2,
 
-        SMS = 3
+        SMS = 3,
+
+        /// <summary>
+        /// 飞书
+        /// </summary>
+        Feishu = 4
     }
 }

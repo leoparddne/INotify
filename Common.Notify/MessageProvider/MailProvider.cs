@@ -18,7 +18,7 @@ namespace Common.Notify.MessageProvider
                 throw new System.Exception("Error Mail MessageData");
             }
 
-            MailHelper.SendMail(mailConfig, sendData.Subject, sendData.Content, sendData.MailTo);
+            MailHelper.SendMail(mailConfig, sendData.Subject, sendData.Content, sendData.MailTo, config.Timeout * 1000);
         }
 
         public void SendMessage(BaseConfig config, SendTextInDto dto)
@@ -29,7 +29,7 @@ namespace Common.Notify.MessageProvider
             }
 
 
-            MailHelper.SendMail(mailConfig, dto.Subject, dto.Content, dto.SendTo);
+            MailHelper.SendMail(mailConfig, dto.Subject, dto.Content, dto.SendTo, config.Timeout * 1000);
         }
     }
 }

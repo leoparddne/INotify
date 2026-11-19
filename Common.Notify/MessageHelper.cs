@@ -31,6 +31,9 @@ namespace Common.Notify
                 case ConfigTypeEnum.EMail:
                     provider = new MailProvider();
                     break;
+                case ConfigTypeEnum.Feishu:
+                    provider = new FeishuProvider();
+                    break;
                 case ConfigTypeEnum.SMS:
                     throw new System.NotImplementedException();
                     break;
@@ -61,6 +64,9 @@ namespace Common.Notify
                     break;
                 case ConfigTypeEnum.EMail:
                     provider = new MailProvider();
+                    break;
+                case ConfigTypeEnum.Feishu:
+                    provider = new FeishuProvider();
                     break;
                 case ConfigTypeEnum.SMS:
                     throw new System.NotImplementedException();

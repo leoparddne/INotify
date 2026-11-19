@@ -20,7 +20,7 @@ namespace Common.Notify.MessageProvider
                 throw new Exception("Error DingTalk MessageData");
             }
 
-            WechatHelper.SendMessage(wechatConfig.Corpid, wechatConfig.Corpsecret, wechatMessage);
+            WechatHelper.SendMessage(wechatConfig.Corpid, wechatConfig.Corpsecret, wechatMessage, config.Timeout * 1000);
         }
 
         public void SendMessage(BaseConfig config, SendTextInDto dto)
@@ -40,7 +40,7 @@ namespace Common.Notify.MessageProvider
                 {
                     content = dto.Content
                 }
-            });
+            }, config.Timeout * 1000);
         }
     }
 }

@@ -7,17 +7,17 @@ namespace Common.Notify.Tools.Wechat.Util
     public static class WechatHttpHelper
     {
         public static readonly string baseUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
-        public static T Get<T>(string url) where T : WechatCommonOutDto
+        public static T Get<T>(string url, int timeout = 10000) where T : WechatCommonOutDto
         {
-            Task<T> result = HttpHelper.GetAsync<T>($"{baseUrl}{url}");
+            Task<T> result = HttpHelper.GetAsync<T>($"{baseUrl}{url}", null, null, timeout);
             result.Wait();
 
             return GetData(result.Result);
         }
 
-        public static T Post<T>(string url, object bodyData) where T : WechatCommonOutDto
+        public static T Post<T>(string url, object bodyData, int timeout = 10000) where T : WechatCommonOutDto
         {
-            Task<T> result = HttpHelper.PostAsync<T>($"{baseUrl}{url}", bodyData);
+            Task<T> result = HttpHelper.PostAsync<T>($"{baseUrl}{url}", bodyData, null, timeout);
             result.Wait();
 
             return GetData(result.Result);
