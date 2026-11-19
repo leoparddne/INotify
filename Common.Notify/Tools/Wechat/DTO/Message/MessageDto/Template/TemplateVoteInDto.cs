@@ -1,6 +1,4 @@
-﻿using Common.Notify.Tools.Wechat.DTO.Message.MessageDto;
-
-namespace Common.Notify.Tools.Wechat.DTO.Message.MessageDto.Template
+﻿namespace Common.Notify.Tools.Wechat.DTO.Message.MessageDto.Template
 {
     public class TemplateVoteInDto : BaseMessageInDto
     {

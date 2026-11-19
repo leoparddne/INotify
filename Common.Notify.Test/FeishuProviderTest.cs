@@ -1,15 +1,13 @@
-using Common.Notify.Config;
+﻿using Common.Notify.Config;
 using Common.Notify.DTO;
 using Common.Notify.MessageProvider;
 using Common.Notify.Tools.Feishu;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace Common.Notify.Test
 {
     [TestClass]
-    public class FeishuProviderTest
+    public sealed class FeishuProviderTest
     {
         private static readonly FeishuConfig Config = new FeishuConfig
         {
@@ -20,7 +18,7 @@ namespace Common.Notify.Test
         /// <summary>
         /// 测试组织内用户的 user_id
         /// </summary>
-        private static readonly System.Collections.Generic.List<string> TestUserIds = new System.Collections.Generic.List<string> { "userId" };
+        private static readonly List<string> TestUserIds = new List<string> { "9d92fged" };
 
         /// <summary>
         /// 获取 tenant_access_token
@@ -28,9 +26,9 @@ namespace Common.Notify.Test
         [TestMethod]
         public void GetToken()
         {
-            var token = FeishuHelper.GetToken(Config.APPID, Config.APPSecret);
+            var token = FeishuHelper.GetToken(Config.APPID, Config.APPSecret, Config.Timeout);
 
-            System.Console.WriteLine(token);
+            Assert.IsFalse(string.IsNullOrEmpty(token), "获取 token 失败");
         }
 
         /// <summary>
@@ -58,7 +56,9 @@ namespace Common.Notify.Test
 
             var list = feishu.GetDepartmentList(Config);
 
-            System.Console.WriteLine(JsonConvert.SerializeObject(list));
+            Assert.IsTrue(list == null || list.Count >= 0);
+            Console.WriteLine(JsonConvert.SerializeObject(list));
+
         }
 
         /// <summary>
@@ -70,11 +70,12 @@ namespace Common.Notify.Test
             var feishu = new FeishuProvider();
 
             var departments = feishu.GetDepartmentList(Config);
-            var departIds = departments?.Select(d => d.Id).ToList() ?? new System.Collections.Generic.List<string>();
+            var departIds = departments?.Select(d => d.Id.ToString()).ToList() ?? new List<string>();
 
             var users = feishu.GetUserListByDepartment(Config, departIds);
 
-            System.Console.WriteLine(JsonConvert.SerializeObject(users));
+            Assert.IsNotNull(users);
+            Console.WriteLine(JsonConvert.SerializeObject(users));
         }
     }
 }

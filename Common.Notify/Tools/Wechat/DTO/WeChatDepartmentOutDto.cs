@@ -2,7 +2,7 @@
 
 namespace Common.Notify.Tools.Wechat.DTO
 {
-    public class DepartmentOutDto : WechatCommonOutDto
+    public class WeChatDepartmentOutDto : WechatCommonOutDto
     {
         public List<DepartmentItem> department { get; set; }
     }

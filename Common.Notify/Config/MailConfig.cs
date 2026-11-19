@@ -22,11 +22,9 @@ namespace Common.Notify.Config
         /// </summary>
         public int MailPort { get; set; }
 
-
         /// <summary>
         /// 
         /// </summary>
         public SecureSocketOptions SecurityType { get; set; } = SecureSocketOptions.Auto;
-
     }
 }

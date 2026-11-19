@@ -1,11 +1,4 @@
-﻿using Common.Notify.Tools.Wechat.DTO.Message.MessageDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.Notify.Tools.Wechat.DTO.Message.MessageDto.Template
+﻿namespace Common.Notify.Tools.Wechat.DTO.Message.MessageDto.Template
 {
     /// <summary>
     /// 图文

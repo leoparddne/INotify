@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Common.Notify.DTO.Contact;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.Notify.Tools.Mail
 {
     public class MailInDto
     {
-        public string Subject { get; internal set; }
-        public string Content { get; internal set; }
-        public List<string> MailTo { get; internal set; }
+        public string Subject { get; set; }
+        public string Content { get; set; }
+        public List<string> MailTo { get; set; }
+        public List<AttachFileConfig> AttachFileList { get; set; }
     }
 }

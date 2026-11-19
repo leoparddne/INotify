@@ -1,26 +1,83 @@
 ﻿using Common.Notify.Tools.DingTalk.DTO;
+using Common.Notify.Tools.DingTalk.DTO.OA;
+using Common.Toolkit.Helper;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Common.Notify.Tools.DingTalk.Util
 {
     public static class DingTalkHttpUtil
     {
-        public static readonly string baseUrl = "https://oapi.dingtalk.com/topapi/";
-        public static T Get<T>(string url, int timeout = 10000)
-        {
-            Task<CommonOutDto<T>> result = HttpHelper.GetAsync<CommonOutDto<T>>($"{baseUrl}{url}", null, null, timeout);
-            result.Wait();
+        /// <summary>
+        /// https://oapi.dingtalk.com/
+        /// </summary>
+        public static readonly string baseUrl = "https://oapi.dingtalk.com/";
 
-            return GetData(result.Result);
+        /// <summary>
+        /// https://api.dingtalk.com/
+        /// </summary>
+        public static readonly string baseUrl_api_ding = "https://api.dingtalk.com/";
+
+        /// <summary>
+        /// 共享的 httphelper 实例，避免多次创建对象
+        /// </summary>
+        public static HttpHelper httpHelperEx = new();
+
+
+        public static string GetBaseUrl(string newBaseURL)
+        {
+            if (string.IsNullOrEmpty(newBaseURL))
+            {
+                return baseUrl;
+            }
+
+            return newBaseURL;
         }
 
-        public static T Post<T>(string url, object bodyData, int timeout = 10000)
+        public static T Get<T>(string url, int timeout = 10, string baseUrlStr = null, Dictionary<string, string> Headers = null)
         {
-            Task<CommonOutDto<T>> result = HttpHelper.PostAsync<CommonOutDto<T>>($"{baseUrl}{url}", bodyData, null, timeout);
-            result.Wait();
+            httpHelperEx.SetTimeout(timeout);
+            var result = httpHelperEx.Get<CommonOutDto<T>>($"{GetBaseUrl(baseUrlStr)}{url}", Headers);
 
-            return GetData(result.Result);
+            return GetData(result);
+        }
+
+
+        /// <summary>
+        /// 传递自定义的url - 不使用内部baseurl
+        /// </summary>
+        public static T GetRaw<T>(string url, int timeout = 10, Dictionary<string, string> Headers = null)
+        {
+            httpHelperEx.SetTimeout(timeout);
+            var result = httpHelperEx.Get<T>($"{url}", Headers);
+
+            return result;
+        }
+
+        public static T Post<T>(string url, object bodyData, int timeout = 10, string baseUrlStr = null, Dictionary<string, string> Headers = null)
+        {
+            httpHelperEx.SetTimeout(timeout);
+            var result = httpHelperEx.Post<CommonOutDto<T>>($"{GetBaseUrl(baseUrlStr)}{url}", bodyData, Headers);
+
+            return GetData(result);
+        }
+
+        public static T PostRaw<T>(string url, object bodyData, int timeout = 10, string baseUrlStr = null, Dictionary<string, string> Headers = null)
+        {
+            httpHelperEx.SetTimeout(timeout);
+            var result = httpHelperEx.Post<T>($"{GetBaseUrl(baseUrlStr)}{url}", bodyData, Headers);
+
+            return result;
+        }
+
+        public static void CheckOAData(DingOACommonOutDto data)
+        {
+            if (string.IsNullOrEmpty(data.message))
+            {
+                return;
+            }
+
+            throw new Exception(data.message);
         }
 
         public static T GetData<T>(CommonOutDto<T> data)

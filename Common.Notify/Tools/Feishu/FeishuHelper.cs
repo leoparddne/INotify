@@ -7,9 +7,9 @@ namespace Common.Notify.Tools.Feishu
 {
     public static class FeishuHelper
     {
-        public static string GetToken(string app_id, string app_secret, int timeout = 10000)
+        public static string GetToken(string app_id, string app_secret, int timeout = 10)
         {
-            var result = FeishuHttpHelper.Post<FeishuTokenOutDto>($"auth/v3/tenant_access_token/internal", new
+            var result = FeishuHttpUtil.Post<FeishuTokenOutDto>($"auth/v3/tenant_access_token/internal", new
             {
                 app_id,
                 app_secret
@@ -19,9 +19,9 @@ namespace Common.Notify.Tools.Feishu
         }
 
 
-        public static void SendMsg(string token, string receive_id, string msg_type, string content, string uuid, int timeout = 10000)
+        public static void SendMsg(string token, string receive_id, string msg_type, string content, string uuid, int timeout = 10)
         {
-            var result = FeishuHttpHelper.Post<FeishuTokenOutDto>($"im/v1/messages?receive_id_type=user_id", new
+            var result = FeishuHttpUtil.Post<FeishuTokenOutDto>($"im/v1/messages?receive_id_type=user_id", new
             {
                 receive_id,
                 msg_type,
@@ -35,9 +35,9 @@ namespace Common.Notify.Tools.Feishu
         }
 
 
-        public static string ReplyMsg(string token, string messageID, string msg_type, string content, string uuid, int timeout = 10000)
+        public static string ReplyMsg(string token, string messageID, string msg_type, string content, string uuid, int timeout = 10)
         {
-            var result = FeishuHttpHelper.Post<FeishuTokenOutDto>($"im/v1/messages/{messageID}/reply", new
+            var result = FeishuHttpUtil.Post<FeishuTokenOutDto>($"im/v1/messages/{messageID}/reply", new
             {
                 content,
                 msg_type,
@@ -53,9 +53,9 @@ namespace Common.Notify.Tools.Feishu
 
         public static void BatchSendMsg(FeishuConfig feishuConfig, List<string> receive_id, string msg_type, string content, int timeout)
         {
-            var token = FeishuHelper.GetToken(feishuConfig.APPID, feishuConfig.APPSecret, timeout);
+            var token = FeishuHelper.GetToken(feishuConfig.APPID, feishuConfig.APPSecret, feishuConfig.Timeout);
 
-            var result = FeishuHttpHelper.Post<FeishuTokenOutDto>($"message/v4/batch_send/", new
+            var result = FeishuHttpUtil.Post<FeishuTokenOutDto>($"message/v4/batch_send/", new
             {
                 user_ids = receive_id,
                 msg_type,
@@ -72,7 +72,7 @@ namespace Common.Notify.Tools.Feishu
         /// 获取企业下所有部门（递归获取子部门）
         /// 文档：https://open.feishu.cn/document/directory-v1/department/filter
         /// </summary>
-        public static List<FeishuDepartmentItem> GetDepartmentList(FeishuConfig feishuConfig, int timeout = 10000)
+        public static List<FeishuDepartmentItem> GetDepartmentList(FeishuConfig feishuConfig, int timeout = 10)
         {
             var token = GetToken(feishuConfig.APPID, feishuConfig.APPSecret, timeout);
 
@@ -93,7 +93,7 @@ namespace Common.Notify.Tools.Feishu
 
             do
             {
-                var data = FeishuHttpHelper.Post<FeishuDepartmentFilterOutDto>($"directory/v1/departments/filter?department_id_type=open_department_id", new
+                var data = FeishuHttpUtil.Post<FeishuDepartmentFilterOutDto>($"directory/v1/departments/filter?department_id_type=open_department_id", new
                 {
                     filter = new
                     {
@@ -139,7 +139,7 @@ namespace Common.Notify.Tools.Feishu
         /// 获取部门下的用户列表
         /// 文档：https://open.feishu.cn/document/server-docs/contact-v3/user/find_by_department
         /// </summary>
-        public static List<FeishuUserItem> GetUserListByDepartment(FeishuConfig feishuConfig, string departmentId, int timeout = 10000)
+        public static List<FeishuUserItem> GetUserListByDepartment(FeishuConfig feishuConfig, string departmentId, int timeout = 10)
         {
             var token = GetToken(feishuConfig.APPID, feishuConfig.APPSecret, timeout);
 
@@ -154,7 +154,7 @@ namespace Common.Notify.Tools.Feishu
                     url += $"&page_token={pageToken}";
                 }
 
-                var data = FeishuHttpHelper.Get<FeishuUserFindByDepartmentOutDto>(url, null, new Dictionary<string, string>
+                var data = FeishuHttpUtil.Get<FeishuUserFindByDepartmentOutDto>(url, null, new Dictionary<string, string>
                 {
                     { "Authorization",$"Bearer {token}"}
                 }, timeout);

@@ -7,9 +7,9 @@ namespace Common.Notify.Tools.Wechat
 {
     public static class WechatHelper
     {
-        public static string GetToken(string corpid, string corpsecret, int timeout = 10000)
+        public static string GetToken(string corpid, string corpsecret, int timeout = 10)
         {
-            AccessTokenOutDto result = WechatHttpHelper.Get<AccessTokenOutDto>($"gettoken?corpid={corpid}&corpsecret={corpsecret}", timeout);
+            AccessTokenOutDto result = WechatHttpUtil.Get<AccessTokenOutDto>($"gettoken?corpid={corpid}&corpsecret={corpsecret}", null, null, timeout);
 
             return result.access_token;
         }
@@ -20,30 +20,30 @@ namespace Common.Notify.Tools.Wechat
         /// <param name="corpid"></param>
         /// <param name="corpsecret"></param>
         /// <returns></returns>
-        public static DepartmentOutDto GetDepartment(string corpid, string corpsecret, int timeout = 10000)
+        public static WeChatDepartmentOutDto GetDepartment(string corpid, string corpsecret, int timeout = 10)
         {
-            var token = GetToken(corpid, corpsecret, timeout);
+            var token = GetToken(corpid, corpsecret);
 
-            var result = WechatHttpHelper.Get<DepartmentOutDto>($"department/list?access_token={token}", timeout);
+            var result = WechatHttpUtil.Get<WeChatDepartmentOutDto>($"department/list?access_token={token}", null, null, timeout);
 
             return result;
         }
 
-        public static DepartmentUserSimple GetDepartmentUser(string corpid, string corpsecret, int departmentId, int timeout = 10000)
+        public static DepartmentUserSimple GetDepartmentUser(string corpid, string corpsecret, int departmentId, int timeout = 10)
         {
-            var token = GetToken(corpid, corpsecret, timeout);
+            var token = GetToken(corpid, corpsecret);
 
-            var departmentUser = WechatHttpHelper.Get<DepartmentUserSimple>($"user/simplelist?access_token={token}&department_id={departmentId}", timeout);
+            var departmentUser = WechatHttpUtil.Get<DepartmentUserSimple>($"user/simplelist?access_token={token}&department_id={departmentId}", null, null, timeout);
 
             return departmentUser;
         }
 
 
-        public static DepartmentUserDetail GetDepartmentUserDetail(string corpid, string corpsecret, int departmentId, int timeout = 10000)
+        public static DepartmentUserDetail GetDepartmentUserDetail(string corpid, string corpsecret, int departmentId, int timeout = 10)
         {
-            var token = GetToken(corpid, corpsecret, timeout);
+            var token = GetToken(corpid, corpsecret);
 
-            var result = WechatHttpHelper.Get<DepartmentUserDetail>($"user/list?access_token={token}&department_id={departmentId}", timeout);
+            var result = WechatHttpUtil.Get<DepartmentUserDetail>($"user/list?access_token={token}&department_id={departmentId}", null, null, timeout);
 
 
             return result;
@@ -55,28 +55,29 @@ namespace Common.Notify.Tools.Wechat
         /// <param name="corpid"></param>
         /// <param name="corpsecret"></param>
 
-        public static SendMessageOutDto SendMessage(string corpid, string corpsecret, BaseMessageInDto message, int timeout = 10000)
+        public static SendMessageOutDto SendMessage(string corpid, string corpsecret, BaseMessageInDto message, int timeout = 10)
         {
-            var token = GetToken(corpid, corpsecret, timeout);
+            var token = GetToken(corpid, corpsecret);
 
-            var result = WechatHttpHelper.Post<SendMessageOutDto>($"message/send?access_token={token}", message, timeout);
+            var result = WechatHttpUtil.Post<SendMessageOutDto>($"message/send?access_token={token}", message, null, timeout);
 
             return result;
         }
-        
+
+
         /// <summary>
         /// 根据手机号获取userid
         /// </summary>
         /// <param name="corpid"></param>
         /// <param name="corpsecret"></param>
         /// <param name="mobile"></param>
-        public static UserOutDto GetUserIdByPhone(string corpid, string corpsecret, string mobile, int timeout = 10000)
+        public static WechatUserOutDto GetUserIdByPhone(string corpid, string corpsecret, string mobile, int timeout = 10)
         {
-            var token = GetToken(corpid, corpsecret, timeout);
-            var result = WechatHttpHelper.Post<UserOutDto>($"user/getuserid?access_token={token}", new
+            var token = GetToken(corpid, corpsecret);
+            var result = WechatHttpUtil.Post<WechatUserOutDto>($"user/getuserid?access_token={token}", new
             {
-                mobile= mobile
-            }, timeout);
+                mobile
+            }, null, timeout);
 
             return result;
         }

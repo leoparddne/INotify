@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.Notify.Tools.Wechat.DTO
+﻿namespace Common.Notify.Tools.Wechat.DTO
 {
     public class AccessTokenOutDto : WechatCommonOutDto
     {

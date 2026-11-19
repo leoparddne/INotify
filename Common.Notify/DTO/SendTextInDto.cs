@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Common.Notify.DTO.Contact;
+using System.Collections.Generic;
 
 namespace Common.Notify.DTO
 {
@@ -18,5 +19,11 @@ namespace Common.Notify.DTO
         /// 发送的文本
         /// </summary>
         public string Content { get; set; }
+
+        public string BizID { get; set; }
+
+        public string RedirectPath { get; set; }
+
+        public List<AttachFileConfig> AttachFileList { get; set; }
     }
 }
