@@ -5,7 +5,6 @@ using Common.Notify.Tools.Wechat;
 using Common.Notify.Tools.Wechat.DTO;
 using Common.Notify.Tools.Wechat.DTO.Message.MessageDto;
 using Common.Toolkit.Extention;
-using Common.Toolkit.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;

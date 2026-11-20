@@ -3,6 +3,7 @@ using Common.Notify.Tools.DingTalk.DTO.OA;
 using Common.Toolkit.Helper;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Common.Notify.Tools.DingTalk.Util
 {
@@ -36,8 +37,8 @@ namespace Common.Notify.Tools.DingTalk.Util
 
         public static T Get<T>(string url, int timeout = 10, string baseUrlStr = null, Dictionary<string, string> Headers = null)
         {
-            httpHelperEx.SetTimeout(timeout);
-            var result = httpHelperEx.Get<CommonOutDto<T>>($"{GetBaseUrl(baseUrlStr)}{url}", Headers);
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            var result = httpHelperEx.Get<CommonOutDto<T>>($"{GetBaseUrl(baseUrlStr)}{url}", Headers, cts.Token);
 
             return GetData(result);
         }
@@ -48,24 +49,24 @@ namespace Common.Notify.Tools.DingTalk.Util
         /// </summary>
         public static T GetRaw<T>(string url, int timeout = 10, Dictionary<string, string> Headers = null)
         {
-            httpHelperEx.SetTimeout(timeout);
-            var result = httpHelperEx.Get<T>($"{url}", Headers);
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            var result = httpHelperEx.Get<T>($"{url}", Headers, cts.Token);
 
             return result;
         }
 
         public static T Post<T>(string url, object bodyData, int timeout = 10, string baseUrlStr = null, Dictionary<string, string> Headers = null)
         {
-            httpHelperEx.SetTimeout(timeout);
-            var result = httpHelperEx.Post<CommonOutDto<T>>($"{GetBaseUrl(baseUrlStr)}{url}", bodyData, Headers);
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            var result = httpHelperEx.Post<CommonOutDto<T>>($"{GetBaseUrl(baseUrlStr)}{url}", bodyData, Headers, cts.Token);
 
             return GetData(result);
         }
 
         public static T PostRaw<T>(string url, object bodyData, int timeout = 10, string baseUrlStr = null, Dictionary<string, string> Headers = null)
         {
-            httpHelperEx.SetTimeout(timeout);
-            var result = httpHelperEx.Post<T>($"{GetBaseUrl(baseUrlStr)}{url}", bodyData, Headers);
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            var result = httpHelperEx.Post<T>($"{GetBaseUrl(baseUrlStr)}{url}", bodyData, Headers, cts.Token);
 
             return result;
         }

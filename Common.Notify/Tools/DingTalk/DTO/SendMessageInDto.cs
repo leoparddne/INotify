@@ -1,6 +1,5 @@
 ﻿using Common.Notify.Tools.DingTalk.Enums;
 using Common.Toolkit.Extention;
-using Common.Toolkit.Helper;
 using System.Collections.Generic;
 
 namespace Common.Notify.Tools.DingTalk.DTO

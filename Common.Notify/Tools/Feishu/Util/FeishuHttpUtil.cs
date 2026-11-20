@@ -2,6 +2,7 @@
 using Common.Toolkit.Helper;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Common.Notify.Tools.Feishu.Util
@@ -17,8 +18,8 @@ namespace Common.Notify.Tools.Feishu.Util
 
         public static T Get<T>(string url, Dictionary<string, object> parameter = null, Dictionary<string, string> Headers = null, int timeout = 10) where T : FeishuCommonOutDto
         {
-            httpHelperEx.SetTimeout(timeout);
-            Task<T> result = httpHelperEx.GetAsync<T>($"{baseUrl}{url}", Headers);
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            Task<T> result = httpHelperEx.GetAsync<T>($"{baseUrl}{url}", Headers, cts.Token);
             result.Wait();
 
             return GetData(result.Result);
@@ -26,8 +27,8 @@ namespace Common.Notify.Tools.Feishu.Util
 
         public static T Post<T>(string url, object bodyData, Dictionary<string, string> Headers = null, int timeout = 10) where T : FeishuCommonOutDto
         {
-            httpHelperEx.SetTimeout(timeout);
-            Task<T> result = httpHelperEx.PostAsync<T>($"{baseUrl}{url}", bodyData, Headers);
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            Task<T> result = httpHelperEx.PostAsync<T>($"{baseUrl}{url}", bodyData, Headers, cts.Token);
             result.Wait();
 
             return GetData(result.Result);
